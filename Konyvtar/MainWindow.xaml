@@ -6,12 +6,12 @@
         xmlns:local="clr-namespace:Konyvtar"
         xmlns:vm="clr-namespace:Konyvtar"
         mc:Ignorable="d"
-        Title="Könyvek" Height="300" Width="500">
+        Title="Könyvek" Height="300" Width="600">
     <Window.DataContext>
         <vm:MainViewModel/>
     </Window.DataContext>
     <Grid>
-        <ListBox x:Name="BooksListBox" ItemsSource="{Binding Books}" Margin="10" SelectionChanged="ListBox_SelectionChanged">
+        <ListBox x:Name="BooksListBox" ItemsSource="{Binding Books}" Margin="10, 10, 10, 50" SelectionChanged="ListBox_SelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Margin="5">
@@ -25,9 +25,10 @@
         </ListBox>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10">
-            <Button Content="Hozzáadás" Width="100" Margin="5" Click="AddBook_Click" />
+            <Button x:Name="UsersButton" Content="Felhasználók" Width="100" Margin="5" Click="Users_Click" />
             <Button x:Name="EditButton" Content="Szerkesztés" Width="100" Margin="5" Click="EditBook_Click" />
             <Button x:Name="DeleteButton" Content="Törlés" Width="100" Margin="5" Click="DeleteBook_Click" />
+            <Button Content="Hozzáadás" Width="100" Margin="5" Click="AddBook_Click" />
             <Button Content="Kijelentkezés" Width="100" Margin="5" Click="Logout_Click" />
         </StackPanel>
     </Grid>

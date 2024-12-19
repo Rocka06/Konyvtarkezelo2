@@ -8,20 +8,19 @@ namespace Konyvtar
 {
     public class Auth
     {
-        private static User? _currentUser;
+        public static User? CurrentUser { get; private set; }
 
         public static bool Login(string username, string password)
         {
             var users = FileManager.LoadUsers();
             var hash = ComputeHash(password);
-            _currentUser = users.FirstOrDefault(u => u.Username == username && u.PasswordHash == hash);
-            return _currentUser != null;
+            CurrentUser = users.FirstOrDefault(u => u.Username == username && u.PasswordHash == hash);
+            return CurrentUser != null;
         }
         public static void Logout()
         {
-            _currentUser = null;
+            CurrentUser = null;
         }
-
         public static bool Register(string username, string password)
         {
             List<User> users = FileManager.LoadUsers();
@@ -37,7 +36,7 @@ namespace Konyvtar
             return true;
         }
 
-        public static bool IsAdmin() => _currentUser?.IsAdmin ?? false;
+        public static bool IsAdmin() => CurrentUser?.IsAdmin ?? false;
 
         public static string ComputeHash(string text)
         {

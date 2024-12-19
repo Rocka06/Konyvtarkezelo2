@@ -12,8 +12,15 @@ namespace Konyvtar
             InitializeComponent();
             viewModel = DataContext as MainViewModel;
 
+            UsersButton.Visibility = Auth.IsAdmin() ? Visibility.Visible : Visibility.Hidden;
             EditButton.Visibility = Auth.IsAdmin() ? Visibility.Visible : Visibility.Hidden;
             DeleteButton.Visibility = Auth.IsAdmin() ? Visibility.Visible : Visibility.Hidden;
+        }
+
+        private void Users_Click(object sender, RoutedEventArgs e)
+        {
+            UserManagement window = new UserManagement();
+            window.ShowDialog();
         }
 
         private void AddBook_Click(object sender, RoutedEventArgs e)

@@ -1,0 +1,25 @@
+﻿<Window x:Class="Konyvtar.UserManagement"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Konyvtar"
+        mc:Ignorable="d"
+        Title="Felhasználók" Height="250" Width="400">
+    <Window.DataContext>
+        <local:UserManagementViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <ListBox x:Name="UsersListBox"
+                 ItemsSource="{Binding Users}"
+                 Margin="10,10,10,40" 
+                 DisplayMemberPath="Username"
+                 SelectionChanged="UsersListBox_SelectionChanged">
+        </ListBox>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10">
+            <Button Content="Törlés" Width="100" Margin="5" Click="DeleteUser_Click"/>
+            <Button Content="Vissza" Width="100" Margin="5" Click="Back_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
