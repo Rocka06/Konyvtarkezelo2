@@ -21,23 +21,63 @@ namespace Konyvtar
         {
             CurrentUser = null;
         }
-        public static bool Register(string username, string password)
+        public static bool Register(string username, string email, string password, out string message)
         {
             List<User> users = FileManager.LoadUsers();
-            bool isAdmin = false;
+            message = "Sikeres regisztráció!";
+            bool isAdmin = users.Count == 0;
 
-            if (users.Count == 0) isAdmin = true;
-            if (users.Any(x => x.Username == username)) return false;
+            if (users.Any(x => x.Username == username))
+            {
+                message = "Ez a felhasználónév már foglalt!";
+                return false;
+            }
+            if (!IsValidEmail(email))
+            {
+                message = "Az email formátuma nem érvényes.";
+                return false;
+            }
+            if (!IsValidPassword(password))
+            {
+                message = "A jelszó legalább 8 karakter hosszú, tartalmaznia kell egy nagybetűt, egy kisbetűt és egy számot.";
+                return false;
+            }
 
             string passwordHash = ComputeHash(password);
-            users.Add(new User(username, passwordHash, isAdmin));
+            users.Add(new User(username, email, passwordHash, isAdmin));
             
             FileManager.SaveUsers(users);
             return true;
         }
 
         public static bool IsAdmin() => CurrentUser?.IsAdmin ?? false;
+        
+        private static bool IsValidEmail(string email)
+        {
+            var trimmedEmail = email.Trim();
 
+            if (trimmedEmail.EndsWith("."))
+            {
+                return false;
+            }
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == trimmedEmail;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        private static bool IsValidPassword(string password)
+        {
+            bool hasUpperCase = password.Any(char.IsUpper);
+            bool hasLowerCase = password.Any(char.IsLower);
+            bool hasDigit = password.Any(char.IsDigit);
+            return password.Length >= 8 && hasUpperCase && hasLowerCase && hasDigit;
+        }
+        
         public static string ComputeHash(string text)
         {
             SHA256 sha256 = SHA256.Create();

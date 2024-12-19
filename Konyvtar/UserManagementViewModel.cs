@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace Konyvtar
 {
@@ -11,18 +12,19 @@ namespace Konyvtar
 
         public UserManagementViewModel()
         {
-            List<User> users = FileManager.LoadUsers();
-            Users = new(users.Where(x => x.Username != Auth.CurrentUser.Username));
+            Users = new(FileManager.LoadUsers());
         }
 
         public void DeleteUser(User user)
         {
+            if(user.Username == Auth.CurrentUser.Username)
+            {
+                MessageBox.Show("Magadat nem törölheted!", "Hiba!");
+                return;
+            }
+
             Users.Remove(user);
-            
-            List<User> users = Users.ToList();
-            users.Add(Auth.CurrentUser);
-            
-            FileManager.SaveUsers(users.ToList());
+            FileManager.SaveUsers(Users.ToList());
         }
     }
 }

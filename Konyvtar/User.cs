@@ -9,12 +9,14 @@ namespace Konyvtar
     public class User
     {
         public string Username { get; private set; }
+        public string Email { get; private set; }
         public string PasswordHash { get; private set; }
         public bool IsAdmin { get; private set; }
 
-        public User(string username, string passwordHash, bool isAdmin)
+        public User(string username, string email, string passwordHash, bool isAdmin)
         {
             Username = username;
+            Email = email;
             PasswordHash = passwordHash;
             IsAdmin = isAdmin;
         }

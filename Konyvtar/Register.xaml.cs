@@ -24,19 +24,13 @@ namespace Konyvtar
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             string username = UsernameTextBox.Text;
+            string email = EmailTextBox.Text;
             string password = PasswordBox.Password;
 
-            bool result = Auth.Register(username, password);
-
-            if (result)
-            {
-                MessageBox.Show("Sikeres regisztráció!", "Információ");
-                Close();
-            }
-            else
-            {
-                MessageBox.Show("A felhasználónév már foglalt", "Hiba!");
-            }
+            bool result = Auth.Register(username, email, password, out string message);
+            
+            MessageBox.Show(message);
+            if (result) Close();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
